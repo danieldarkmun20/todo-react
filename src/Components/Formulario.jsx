@@ -21,6 +21,7 @@ const Formulario = ({ todos, setTodos, todo, setTodo }) => {
     };
     if (todo.id) {
       objTodo.id = todo.id;
+      objTodo.completed = todo.completed;
       const todosUpdated = todos.map((tdState) =>
         tdState.id === todo.id ? objTodo : tdState
       );

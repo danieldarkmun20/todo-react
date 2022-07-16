@@ -9,9 +9,26 @@ const ListadoToDo = ({ todos, setTodoCompleted, setTodo, todoDelete }) => {
             Administras tus{" "}
             <span className="text-red-600 font-bold">Tareas</span>
           </p>
-          <p className="text-center  mt-5 mb-5">Total: <span className="text-red-600 font-bold"> {todos.length}</span></p>
-          <p className="text-center  mt-5 mb-5">Completados: <span className="text-red-600 font-bold"> {todos.filter(td => td.completed).length}</span></p>
-          <p className="text-center  mt-5 mb-5">Restantes: <span className="text-red-600 font-bold"> {todos.filter(td => !td.completed).length}</span></p>
+          <div className="lg:flex lg:justify-evenly">
+            <p className="text-center  mt-5 mb-5">
+              Total:{" "}
+              <span className="text-red-600 font-bold"> {todos.length}</span>
+            </p>
+            <p className="text-center  mt-5 mb-5">
+              Completados:{" "}
+              <span className="text-red-600 font-bold">
+                {" "}
+                {todos.filter((td) => td.completed).length}
+              </span>
+            </p>
+            <p className="text-center  mt-5 mb-5">
+              Restantes:{" "}
+              <span className="text-red-600 font-bold">
+                {" "}
+                {todos.filter((td) => !td.completed).length}
+              </span>
+            </p>
+          </div>
           {todos.map((todo) => (
             <Todo
               key={todo.id}
