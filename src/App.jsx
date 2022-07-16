@@ -1,34 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import Formulario from "./Components/Formulario";
+import Header from "./Components/Header";
+import ListadoToDo from "./Components/ListadoToDo";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([]);
+  const [todo, setTodo] = useState({});
+  const [todoCompleted, setTodoCompleted] = useState({});
+
+  const todoDelete = (id) => {
+    const todosUpdated = todos.filter(tdState => tdState.id != id);
+    setTodos(todosUpdated)
+  };
+
+  useEffect(() => {
+    const todosUpdated = todos.map((tdState) =>
+      tdState.id === todoCompleted.id ? todoCompleted : tdState
+    );
+    setTodos(todosUpdated);
+  }, [todoCompleted]);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container mx-auto mt-10">
+      <Header />
+      <div className="mt-12 md:flex">
+        <Formulario
+          todos={todos}
+          setTodos={setTodos}
+          todo={todo}
+          setTodo={setTodo}
+        />
+        <ListadoToDo
+          todos={todos}
+          setTodoCompleted={setTodoCompleted}
+          setTodo={setTodo}
+          todoDelete={todoDelete}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
