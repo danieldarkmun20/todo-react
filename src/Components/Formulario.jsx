@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import ErrorMsg from "./ErrorMsg";
 const Formulario = ({ todos, setTodos, todo, setTodo }) => {
   const [text, setText] = useState("");
+  const [error, setError] = useState(false);
   useEffect(() => {
     if (Object.keys(todo).length > 0) {
       setText(todo.text);
@@ -9,7 +11,7 @@ const Formulario = ({ todos, setTodos, todo, setTodo }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text.trim() === "") {
-      console.log("error");
+      setError(true);
       return;
     }
     const objTodo = {
@@ -18,18 +20,19 @@ const Formulario = ({ todos, setTodos, todo, setTodo }) => {
       completed: false,
     };
     if (todo.id) {
-        objTodo.id = todo.id;
-        const todosUpdated = todos.map((tdState) =>
+      objTodo.id = todo.id;
+      const todosUpdated = todos.map((tdState) =>
         tdState.id === todo.id ? objTodo : tdState
       );
-      setTodos(todosUpdated)
-      setTodo({})
+      setTodos(todosUpdated);
+      setTodo({});
     } else {
       objTodo.id = generarId();
       setTodos([...todos, objTodo]);
     }
     //reiniciar formulario
     setText("");
+    setError(false);
   };
   const generarId = () => {
     const random = Math.random().toString(36).substr(2);
@@ -44,6 +47,7 @@ const Formulario = ({ todos, setTodos, todo, setTodo }) => {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-xl py-10 px-5 mb-10"
       >
+        {error && <ErrorMsg msg={"Todos los campos son obligatorios"} />}
         <div className="mb-2">
           <label
             className="block text-gray-700 uppercase font-bold"
